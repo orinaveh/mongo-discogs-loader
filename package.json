@@ -1,0 +1,56 @@
+{
+  "name": "discogs-loader",
+  "version": "0.0.0",
+  "description": "discogs-loader",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc && copyfiles -f src/exe/* dist/exe",
+    "watch": "tsc --watch",
+    "dev": "node -r ts-node/register ./src/index.ts load",
+    "start": "nodemon ./dist/index.js",
+    "install:prod": "npm install --production",
+    "lint": "eslint -c .eslintrc.json --no-error-on-unmatched-pattern ./src/**/*",
+    "test": "tsc && jest --testPathPattern --passWithNoTests .manager.spec.ts$ .server.spec.ts$ .utils.spec.ts$ && jest --maxWorkers=1 --testPathPattern .router.spec.ts$",
+    "test:unit": "tsc && jest --testPathPattern --passWithNoTests .manager.spec.ts$ .utils.spec.ts$",
+    "test:integration": "tsc && jest --maxWorkers=1 --testPathPattern --passWithNoTests .server.spec.ts$",
+    "coverage": "jest --coverage",
+    "release": "standard-version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/yesodot/selenium/apollo/shvilim/people-crud.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/yesodot/selenium/apollo/shvilim/people-crud/issues"
+  },
+  "homepage": "https://gitlab.com/yesodot/selenium/apollo/shvilim/people-crud#readme",
+  "dependencies": {
+    "@bit/omek.utils.logger": "^1.0.3",
+    "@bit/omek.utils.severity-level": "^1.0.2",
+    "chalk": "^4.1.2",
+    "commander": "^9.2.0",
+    "copyfiles": "^2.4.1",
+    "env-var": "^7.1.1",
+    "fast-csv": "^4.3.6",
+    "mongodb": "^4.6.0",
+    "mongoose": "^6.3.4",
+    "open": "^8.4.0"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.2",
+    "@types/node": "^17.0.18",
+    "@typescript-eslint/eslint-plugin": "^5.11.0",
+    "@typescript-eslint/parser": "^5.23.0",
+    "eslint": "^8.8.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^16.1.0",
+    "eslint-plugin-import": "^2.25.4",
+    "nodemon": "^2.0.15",
+    "nyc": "^15.1.0",
+    "standard-version": "^9.3.2",
+    "ts-node": "^10.5.0",
+    "typescript": "^4.5.5"
+  }
+}
