@@ -27,13 +27,14 @@ program
       await open(`/C ${__dirname}\\exe\\discogs.exe ${files}`, { wait: true, app: { name: 'cmd' } });
       console.log(chalk.green('Finished Creating CSV'));
     } else {
-      console.log(chalk.underline('Skipping CSV Creation - Loading to Mongo'));
+      console.log(chalk.underline('Skipping CSV Creation'));
     }
 
     await Promise.all(dumpNames.map(async (dumpName) => {
       const pathName = filesArray.find((fileName) => fileName.includes(dumpName));
       if (pathName) {
         const folderPath = path.join(pathName, '/../');
+        console.log(chalk.underline(`Loading to Mongo - ${dumpName}`));
         switch (dumpName) {
           case 'artists':
             return ArtistsManager.upsert(folderPath);
@@ -47,7 +48,7 @@ program
     }));
 
     await mongoose.connection.close();
-    console.log('Mongo Connection Closed Successfully');
+    console.log(chalk.green('Mongo Connection Closed Successfully'));
   });
 
 program.parse(process.argv);

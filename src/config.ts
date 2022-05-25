@@ -4,4 +4,5 @@ export const config = {
   },
   dumpNames: ['artists', 'masters'],
   artistsCsvs: ['artist.csv', 'artist_namevariation.csv'],
+  bulkSize: 10000,
 };
