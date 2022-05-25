@@ -4,7 +4,7 @@
   "description": "discogs-loader",
   "main": "index.js",
   "scripts": {
-    "build": "tsc && copyfiles -f src/exe/* dist/exe",
+    "build": "tsc",
     "watch": "tsc --watch",
     "dev": "node -r ts-node/register ./src/index.ts load",
     "start": "nodemon ./dist/index.js",
@@ -32,17 +32,14 @@
     "chalk": "^4.1.2",
     "cli-progress": "^3.11.1",
     "commander": "^9.2.0",
-    "copyfiles": "^2.4.1",
     "env-var": "^7.1.1",
-    "fast-csv": "^4.3.6",
     "mongoose": "^6.3.4",
-    "open": "^8.4.0"
+    "xml-flow": "^1.0.4"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.0",
-    "@types/cross-spawn": "^6.0.2",
     "@types/node": "^17.0.18",
-    "@types/progress-stream": "^2.0.2",
+    "@types/xml-flow": "^1.0.1",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "@typescript-eslint/parser": "^5.23.0",
     "eslint": "^8.8.0",

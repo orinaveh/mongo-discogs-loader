@@ -1,36 +1,14 @@
 import mongoose, { Schema } from 'mongoose';
 import { Master } from '../interfaces/masters';
 
-const SongSchema = new Schema({
-  serialId: {
-    type: String,
-    required: true,
-    unique: true,
-  },
-  name: {
-    type: String,
-    required: true,
-  },
-  type: {
-    type: String,
-  },
-}, {
-  toJSON: {
-    virtuals: true,
-    transform(_doc, ret) {
-      // eslint-disable-next-line no-param-reassign
-      delete ret._id;
-    },
-  },
-  versionKey: false,
-  id: true,
-});
-
 const MasterSchema = new Schema({
   serialId: {
     type: String,
     required: true,
     unique: true,
+  },
+  year: {
+    type: String,
   },
   artistIds: {
     type: [String],
@@ -41,10 +19,13 @@ const MasterSchema = new Schema({
     required: true,
   },
   tracklist: {
-    type: [SongSchema],
+    type: [String],
     required: true,
   },
   styles: {
+    type: [String],
+  },
+  genres: {
     type: [String],
   },
 }, {
