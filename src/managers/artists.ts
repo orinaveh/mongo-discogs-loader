@@ -11,7 +11,7 @@ export class ArtistsManager {
   static async upsert(path: string) {
     let rows: any[] = [];
 
-    const end = new Promise((resolve, reject) => {
+    const artistsStream = new Promise((resolve, reject) => {
       const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
       const artistLength = 8000000;
       let fulfilled = 0;
@@ -52,6 +52,6 @@ export class ArtistsManager {
         }
       });
     });
-    await end;
+    await artistsStream;
   }
 }

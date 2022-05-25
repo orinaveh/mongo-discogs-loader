@@ -3,25 +3,12 @@ image: node:14.8-alpine
 stages:
   - lint
   - build
-  - release
-  - build-docker
-
-
-services:
-  - mongo
 
 before_script:
-  - chmod +x ./bit_npm.sh
-  - ./bit_npm.sh
   - npm install --silent
 cache:
   paths:
     - node_modules/
-
-variables:
-  DB_CONNECTION_URL: mongodb://mongo:27017
-  DOCKER_HOST: tcp://localhost:2375
-  DOCKER_TLS_CERTDIR: ""
 
 lint:
   stage: lint
@@ -34,49 +21,3 @@ build-code:
   artifacts:
     paths:
       - dist/
-
-release:
-  # Official docker image.
-  stage: release
-  image: docker:latest
-  services:
-    - docker:18.09-dind
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  script:
-    - docker build --pull -t $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG -t $CI_REGISTRY_IMAGE:latest .
-    - docker push $CI_REGISTRY_IMAGE:$CI_COMMIT_TAG
-    - docker push $CI_REGISTRY_IMAGE:latest
-  only:
-   - tags
-  except:
-   - branches
-
-docker-build-master:
-  # Official docker image.
-  image: docker:latest
-  stage: build-docker
-  services:
-    - docker:18.09-dind
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE" .
-    - docker push "$CI_REGISTRY_IMAGE"
-  only:
-    - master
-
-docker-build:
-  # Official docker image.
-  image: docker:latest
-  stage: build-docker
-  services:
-    - docker:18.09-dind
-  before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-  script:
-    - docker build --pull -t "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG" .
-    - docker push "$CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG"
-  except:
-    - master
-

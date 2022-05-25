@@ -16,8 +16,13 @@ export interface MasterXml {
   id: string,
   title: string,
   released: string,
+  master_id: string,
   styles: string[],
   genres: string[],
+  artists: {
+    id: string,
+    name: string,
+  }[],
   tracklist: {
     position: string,
     title: string,
