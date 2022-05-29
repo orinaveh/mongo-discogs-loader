@@ -14,14 +14,15 @@ const SongSchema = new Schema({
     type: String,
     required: true,
   },
-  type: {
-    type: String,
-  },
   styles: {
     type: [String],
   },
   genres: {
     type: [String],
+  },
+  artistIds: {
+    type: [String],
+    required: true,
   },
 }, {
   toJSON: {

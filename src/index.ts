@@ -14,10 +14,9 @@ program
   .description('CLI to Load Discogs dumps into mongo')
   .version('0.0.1')
   .option('-o, --connection <String>', 'Mongo connection URL')
-  .option('-r, --release <String>', 'Release XML path')
   .arguments('<Path>')
   .action(async (files: string, options) => {
-    const { connection, release } = options;
+    const { connection } = options;
     const filesArray = files.split(' ');
     await mongoose.connect(`${connection}/music`);
     console.log(chalk.green('Mongoose Connected Successfully'));
@@ -29,8 +28,8 @@ program
         switch (dumpName) {
           case 'artists':
             return ArtistsManager.upsert(pathName);
-          case 'masters':
-            return MastersManager.upsert(pathName, release);
+          case 'releases':
+            return MastersManager.upsert(pathName);
           default: return null;
         }
       }

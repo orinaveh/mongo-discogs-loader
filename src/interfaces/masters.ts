@@ -13,10 +13,15 @@ export interface Song {
 }
 
 export interface MasterXml {
-  id: string,
+  '$attrs': {
+    id: string,
+  },
   title: string,
   released: string,
-  master_id: string,
+  master_id: {
+    '$text': string,
+    '$attrs': { is_main_release: 'true' | 'false' }
+  },
   styles: string[],
   genres: string[],
   artists: {
@@ -27,5 +32,12 @@ export interface MasterXml {
     position: string,
     title: string,
     type: string,
+    artists: {
+      id: string,
+      name: string,
+    } | {
+      id: string,
+      name: string,
+    }[],
   }[],
 }

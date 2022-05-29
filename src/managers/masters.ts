@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import XmlStream from 'xml-flow';
 import chalk from 'chalk';
 import cliProgress from 'cli-progress';
@@ -9,47 +10,17 @@ import { SongsRepository } from '../repositories/songs';
 
 const { bulkSize } = config;
 export class MastersManager {
-  static async upsert(path: string, releasePath: string) {
+  static async upsert(path: string) {
     let rows: any[] = [];
     let songsRows: any[] = [];
-    const mastersIds = new Map();
-
-    const masterStream = new Promise((resolve, reject) => {
-      const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-      const mastersLength = 2040000;
-      let fulfilled = 0;
-
-      bar.start(mastersLength, 0);
-
-      const stream = fs.createReadStream(path)
-        .on('error', (err) => reject(err))
-        .on('end', async () => {
-          bar.stop();
-          console.log(chalk.green('Loaded masters ids to system'));
-          resolve(null);
-        });
-      const xml = XmlStream(stream);
-      xml.on('tag:master', async (row: any) => {
-        const {
-          // eslint-disable-next-line @typescript-eslint/naming-convention
-          main_release,
-        } = row;
-        mastersIds.set(main_release, 1);
-        fulfilled += 1;
-        bar.update(fulfilled);
-      }).on('error', (err) => reject(err));
-    });
-
-    await masterStream;
 
     const releaseStream = new Promise((resolve, reject) => {
       const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-      const mastersLength = mastersIds.size;
       let fulfilled = 0;
 
-      bar.start(mastersLength, 0);
+      bar.start(15000000, 0);
 
-      const stream = fs.createReadStream(releasePath)
+      const stream = fs.createReadStream(path)
         .on('error', (err) => reject(err))
         .on('end', async () => {
           await MastersRepository.upsert(rows);
@@ -60,18 +31,28 @@ export class MastersManager {
         });
       const xml = XmlStream(stream);
       xml.on('tag:release', async (row: MasterXml) => {
-        if (!mastersIds.get(row.id) && row.master_id) return;
+        if (row.master_id && row.master_id.$attrs.is_main_release === 'false') return;
         const {
-          id, title, styles, genres, released, tracklist, artists,
+          $attrs: { id }, title, styles, genres, released, tracklist, artists,
         } = row;
-        const newTracklist = tracklist.map(({ title: songTitle, position, type }) => ({
-          name: songTitle,
-          serialId: `${id}_${position}`,
-          position,
-          type,
-        }));
+
+        const arrayTracklist = !Array.isArray(tracklist) ? [tracklist] : tracklist;
+        const arrayArtists = !Array.isArray(artists) ? [artists] : artists;
+
+        const artistsSerials = arrayArtists.map((artist) => artist.id);
+
+        const newTracklist = arrayTracklist.flatMap((track, index) => (track.title ? [{
+          name: track.title,
+          serialId: `${id}_${track.position ?? index}`,
+          position: track.position ?? index,
+          styles,
+          genres,
+          artistIds: Array.isArray(track.artists)
+            ? track.artists.map((artist) => artist.id)
+            : track.artists ? [track.artists.id] : artistsSerials,
+        }] : []));
+
         const tracklistSerials = newTracklist.map((track) => track.serialId);
-        const artistsSerials = artists.map((artist) => artist.id);
 
         const masters = {
           filter: { serialId: id },
@@ -82,14 +63,14 @@ export class MastersManager {
             styles,
             year: released,
             tracklist: tracklistSerials,
-            artists: artistsSerials,
+            artistIds: artistsSerials,
           },
           upsert: true,
         };
 
-        newTracklist.forEach((track) => songsRows.push({
+        newTracklist.forEach((track, index) => songsRows.push({
           updateOne: ({
-            filter: { serialId: id },
+            filter: { serialId: `${id}_${track.position ?? index}` },
             update: track,
             upsert: true,
           }),
@@ -102,14 +83,13 @@ export class MastersManager {
           fulfilled += bulkSize;
           bar.update(fulfilled);
           rows = [];
-          stream.resume();
         }
-        if (songsRows.length === bulkSize) {
+        if (songsRows.length > bulkSize) {
           stream.pause();
           await SongsRepository.upsert(songsRows);
           songsRows = [];
-          stream.resume();
         }
+        stream.resume();
       }).on('error', (err) => reject(err));
     });
     await releaseStream;
