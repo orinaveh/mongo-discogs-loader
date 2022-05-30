@@ -22,7 +22,12 @@ program
   .action(async (files: string, options) => {
     const { connection, db } = options;
     const filesArray = files.split(' ');
-    await mongoose.connect(`${connection}/${db}`);
+    await mongoose.connect(`${connection}`, {
+      dbName: db,
+      readPreference: 'primary',
+      directConnection: true,
+      appName: 'discogs-loader',
+    });
     console.log(chalk.green('Mongoose Connected Successfully'));
 
     await Promise.all(dumpNames.map(async (dumpName) => {
