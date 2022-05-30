@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import chalk from 'chalk';
 import { Command } from 'commander';
 import mongoose from 'mongoose';
@@ -13,12 +15,14 @@ program
   .name('Discogs Loader')
   .description('CLI to Load Discogs dumps into mongo')
   .version('0.0.1')
+  .command('load')
   .option('-o, --connection <String>', 'Mongo connection URL')
+  .option('-d, --db <String>', 'DB Name', 'music')
   .arguments('<Path>')
   .action(async (files: string, options) => {
-    const { connection } = options;
+    const { connection, db } = options;
     const filesArray = files.split(' ');
-    await mongoose.connect(`${connection}/music`);
+    await mongoose.connect(`${connection}/${db}`);
     console.log(chalk.green('Mongoose Connected Successfully'));
 
     await Promise.all(dumpNames.map(async (dumpName) => {

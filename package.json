@@ -1,8 +1,8 @@
 {
   "name": "discogs-loader",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "discogs-loader",
-  "main": "index.js",
+  "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
@@ -21,14 +21,13 @@
     "url": "git+https://gitlab.com/yesodot/selenium/apollo/shvilim/people-crud.git"
   },
   "author": "",
+  "bin": "./dist/index.js",
   "license": "ISC",
   "bugs": {
     "url": "https://gitlab.com/yesodot/selenium/apollo/shvilim/people-crud/issues"
   },
   "homepage": "https://gitlab.com/yesodot/selenium/apollo/shvilim/people-crud#readme",
   "dependencies": {
-    "@bit/omek.utils.logger": "^1.0.3",
-    "@bit/omek.utils.severity-level": "^1.0.2",
     "chalk": "^4.1.2",
     "cli-progress": "^3.11.1",
     "commander": "^9.2.0",
@@ -47,7 +46,6 @@
     "eslint-config-airbnb-typescript": "^16.1.0",
     "eslint-plugin-import": "^2.25.4",
     "nodemon": "^2.0.15",
-    "nyc": "^15.1.0",
     "standard-version": "^9.3.2",
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5"
