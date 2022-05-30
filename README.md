@@ -1,6 +1,13 @@
 # Mongo Discogs Loader
 
-Package thats load XML flies into MongoDB.
+CLI thats load XML flies into MongoDB.
+
+
+## Installation
+
+```
+npm i -g discogs-loader
+```
 
 ## Format
 
@@ -49,12 +56,6 @@ This package loads **only** main releases (The tracks are loaded into a differen
 }
 ```
 
-## Installation
-
-```
-npm i -g discogs-loader
-```
-
 ## Usage 
 
 ```
@@ -64,4 +65,4 @@ Options:
   -o, --connection <String>  Mongo connection URL
   -d, --db <String>          DB Name (default: "music")
   -h, --help                 display help for command
-  ```
+```

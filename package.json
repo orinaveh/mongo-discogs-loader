@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "Package thats load XML flies into MongoDB.",
   "main": "./dist/index.js",
+  "keywords": ["mongo", "discogs"],
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
