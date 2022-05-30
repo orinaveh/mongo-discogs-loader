@@ -61,7 +61,7 @@ export class MastersManager {
             name: title,
             genres,
             styles,
-            year: released,
+            date: released,
             tracklist: tracklistSerials,
             artistIds: artistsSerials,
           },

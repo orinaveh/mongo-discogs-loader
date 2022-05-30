@@ -2,7 +2,7 @@ export interface Master {
   serialId: string,
   artistsIds: string[],
   name: string,
-  year: string,
+  date: string,
   styles?: string[],
 }
 
@@ -10,6 +10,10 @@ export interface Song {
   name: string,
   type: string,
   serialId: string,
+  genres: string[],
+  styles: string[],
+  position: string,
+  artistIds: string[]
 }
 
 export interface MasterXml {

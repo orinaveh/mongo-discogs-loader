@@ -7,7 +7,7 @@ const MasterSchema = new Schema({
     required: true,
     unique: true,
   },
-  year: {
+  date: {
     type: String,
   },
   artistIds: {
@@ -41,4 +41,4 @@ const MasterSchema = new Schema({
   timestamps: { createdAt: true, updatedAt: true },
 });
 
-export const MasterModel = mongoose.model<Master & mongoose.Document>('masters', MasterSchema);
+export const MasterModel = mongoose.model<Master & mongoose.Document>('albums', MasterSchema);
