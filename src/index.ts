@@ -12,7 +12,7 @@ const { dumpNames } = config;
 const program = new Command();
 
 program
-  .name('discogs-loader')
+  .name('mongo-discogs-loader')
   .description('CLI to Load Discogs dumps into mongo')
   .version('0.0.1')
   .command('load')

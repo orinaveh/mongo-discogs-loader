@@ -1,4 +1,4 @@
-# Discogs Loader
+# Mongo Discogs Loader
 
 Package thats load XML flies into MongoDB.
 
@@ -58,7 +58,7 @@ npm i -g discogs-loader
 ## Usage 
 
 ```
- discogs-loader load [options] <Path to xml file - releases | artists>
+ mongo discogs-loader load [options] <Path to xml file - releases | artists>
 
 Options:
   -o, --connection <String>  Mongo connection URL

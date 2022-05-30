@@ -15,17 +15,19 @@ export class MastersManager {
     let songsRows: any[] = [];
 
     const releaseStream = new Promise((resolve, reject) => {
-      const bar = new cliProgress.SingleBar({}, cliProgress.Presets.shades_classic);
-      let fulfilled = 0;
+      const multibar = new cliProgress.MultiBar({ hideCursor: true }, cliProgress.Presets.shades_classic);
 
-      bar.start(15000000, 0);
+      const releasesBar = multibar.create(15000000, 0);
+      const songsBar = multibar.create(150000000, 0);
 
       const stream = fs.createReadStream(path)
         .on('error', (err) => reject(err))
         .on('end', async () => {
           await MastersRepository.upsert(rows);
           await SongsRepository.upsert(songsRows);
-          bar.stop();
+          releasesBar.stop();
+          songsBar.stop();
+          multibar.stop();
           console.log(chalk.green('Inserted masters to mongo'));
           resolve(null);
         });
@@ -77,19 +79,23 @@ export class MastersManager {
         }));
 
         rows.push({ updateOne: masters });
-        if (rows.length === bulkSize) {
-          stream.pause();
-          await MastersRepository.upsert(rows);
-          fulfilled += bulkSize;
-          bar.update(fulfilled);
-          rows = [];
-        }
         if (songsRows.length > bulkSize) {
           stream.pause();
           await SongsRepository.upsert(songsRows);
+          await MastersRepository.upsert(rows);
+          releasesBar.increment(rows.length);
+          songsBar.increment(songsRows.length);
+          rows = [];
           songsRows = [];
+          stream.resume();
         }
-        stream.resume();
+        if (rows.length === bulkSize) {
+          stream.pause();
+          await MastersRepository.upsert(rows);
+          releasesBar.increment(bulkSize);
+          rows = [];
+          stream.resume();
+        }
       }).on('error', (err) => reject(err));
     });
     await releaseStream;

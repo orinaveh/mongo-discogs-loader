@@ -1,7 +1,7 @@
 {
-  "name": "discogs-loader",
+  "name": "mongo-discogs-loader",
   "version": "0.0.1",
-  "description": "discogs-loader",
+  "description": "Package thats load XML flies into MongoDB.",
   "main": "./dist/index.js",
   "scripts": {
     "build": "tsc",
@@ -18,15 +18,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/yesodot/selenium/apollo/shvilim/people-crud.git"
+    "url": "git+https://github.com/orinaveh/mongo-discogs-loader.git"
   },
   "author": "",
   "bin": "./dist/index.js",
+  "files": [
+    "dist/*.js",
+    "dist/**/*.js"
+  ],
   "license": "ISC",
   "bugs": {
-    "url": "https://gitlab.com/yesodot/selenium/apollo/shvilim/people-crud/issues"
+    "url": "https://github.com/orinaveh/mongo-discogs-loader/issues"
   },
-  "homepage": "https://gitlab.com/yesodot/selenium/apollo/shvilim/people-crud#readme",
+  "homepage": "https://github.com/orinaveh/mongo-discogs-loader#readme",
   "dependencies": {
     "chalk": "^4.1.2",
     "cli-progress": "^3.11.1",

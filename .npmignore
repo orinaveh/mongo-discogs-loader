@@ -1,7 +1,0 @@
-.vscode
-node_modules
-.env
-.nyc_output
-coverage
-package-lock.json
-*.tgz
