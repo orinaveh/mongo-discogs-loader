@@ -6,7 +6,7 @@ CLI thats load XML flies into MongoDB.
 ## Installation
 
 ```
-npm i -g discogs-loader
+npm i -g mongo-discogs-loader
 ```
 
 ## Format

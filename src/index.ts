@@ -26,7 +26,7 @@ program
       dbName: db,
       readPreference: 'primary',
       directConnection: true,
-      appName: 'discogs-loader',
+      ssl: false,
     });
     console.log(chalk.green('Mongoose Connected Successfully'));
 
