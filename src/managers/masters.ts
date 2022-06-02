@@ -43,7 +43,7 @@ export class MastersManager {
 
         const artistsSerials = arrayArtists.map((artist) => artist.id);
 
-        const newTracklist = arrayTracklist.flatMap((track, index) => (track.title ? [{
+        const newTracklist = arrayTracklist.flatMap((track, index) => (track?.title ? [{
           name: track.title,
           serialId: `${id}_${track.position ?? index}`,
           position: track.position ?? index,
