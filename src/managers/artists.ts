@@ -29,7 +29,7 @@ export class ArtistsManager {
       const xml = XmlStream(stream);
       xml.on('tag:artist', async (row: ArtistCsv) => {
         const {
-          id, name, profile, variations,
+          id, name, profile, namevariations,
         } = row;
         const artist = {
           filter: { serialId: id },
@@ -37,7 +37,7 @@ export class ArtistsManager {
             serialId: id,
             name,
             profile,
-            variations,
+            variations: namevariations ?? [],
           },
           upsert: true,
         };

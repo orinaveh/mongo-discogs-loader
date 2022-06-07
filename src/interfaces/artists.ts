@@ -9,7 +9,7 @@ export interface ArtistCsv {
   id: string,
   name: string,
   profile?: string,
-  variations: string[]
+  namevariations: string[]
 }
 
 export interface VariationsCsv {
