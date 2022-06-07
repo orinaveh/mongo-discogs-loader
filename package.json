@@ -1,6 +1,6 @@
 {
   "name": "mongo-discogs-loader",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Package thats load XML Discogs dumps into MongoDB.",
   "main": "./dist/index.js",
   "keywords": [

@@ -14,6 +14,10 @@ const MasterSchema = new Schema({
     type: [String],
     required: true,
   },
+  artistNames: {
+    type: [String],
+    required: true,
+  },
   name: {
     type: String,
     required: true,

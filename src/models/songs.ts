@@ -24,6 +24,10 @@ const SongSchema = new Schema({
     type: [String],
     required: true,
   },
+  artistNames: {
+    type: [String],
+    required: true,
+  },
 }, {
   toJSON: {
     virtuals: true,

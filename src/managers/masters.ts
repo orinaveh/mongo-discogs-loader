@@ -42,6 +42,7 @@ export class MastersManager {
         const arrayArtists = !Array.isArray(artists) ? [artists] : artists;
 
         const artistsSerials = arrayArtists.map((artist) => artist.id);
+        const artistNames = arrayArtists.map((artist) => artist.name);
 
         const newTracklist = arrayTracklist.flatMap((track, index) => (track?.title ? [{
           name: track.title,
@@ -52,6 +53,9 @@ export class MastersManager {
           artistIds: Array.isArray(track.artists)
             ? track.artists.map((artist) => artist.id)
             : track.artists ? [track.artists.id] : artistsSerials,
+          artistNames: Array.isArray(track.artists)
+            ? track.artists.map((artist) => artist.name)
+            : track.artists ? [track.artists.name] : artistNames,
         }] : []));
 
         const tracklistSerials = newTracklist.map((track) => track.serialId);
@@ -66,6 +70,7 @@ export class MastersManager {
             date: released,
             tracklist: tracklistSerials,
             artistIds: artistsSerials,
+            artistNames,
           },
           upsert: true,
         };
