@@ -1,7 +1,7 @@
 {
   "name": "mongo-discogs-loader",
-  "version": "0.0.5",
-  "description": "Package thats load XML flies into MongoDB.",
+  "version": "0.0.6",
+  "description": "Package thats load XML Discogs dumps into MongoDB.",
   "main": "./dist/index.js",
   "keywords": [
     "mongo",

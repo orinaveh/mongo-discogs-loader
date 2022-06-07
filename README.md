@@ -1,6 +1,6 @@
 # Mongo Discogs Loader
 
-CLI thats load XML flies into MongoDB.
+CLI thats load XML XML Discogs dumps into MongoDB.
 
 
 ## Installation
