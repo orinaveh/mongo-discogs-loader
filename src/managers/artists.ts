@@ -1,5 +1,6 @@
 import XmlStream from 'xml-flow';
 import chalk from 'chalk';
+import zlib from 'zlib';
 import cliProgress from 'cli-progress';
 import fs from 'fs';
 import { ArtistCsv } from '../interfaces/artists';
@@ -18,7 +19,7 @@ export class ArtistsManager {
 
       bar.start(artistLength, 0);
 
-      const stream = fs.createReadStream(path)
+      const stream = fs.createReadStream(path).pipe(zlib.createUnzip())
         .on('error', (err) => reject(err))
         .on('end', async () => {
           await ArtistsRepository.upsert(rows);

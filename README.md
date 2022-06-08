@@ -1,6 +1,6 @@
 # Mongo Discogs Loader
 
-CLI thats load XML Discogs dumps into MongoDB.
+CLI thats load xml.gz Discogs dumps into MongoDB.
 
 
 ## Installation
@@ -22,7 +22,6 @@ This package loads **only** main releases (The tracks are loaded into a differen
   artistIds: string[],
   name: string,
   date: string,
-  artistNames: string[],
   styles: string[],
   genres: string[],
   tracklist: string[] (Songs serial ids)
@@ -36,12 +35,12 @@ This package loads **only** main releases (The tracks are loaded into a differen
   _id: ObjectId(),
   name: string,
   type: string,
+  albumId: string,
   serialId: string (Composed from release `${Discogs ids}_${position}`),
   genres: string[],
   styles: string[],
   position: string,
   artistIds: string[] (Discogs ids),
-  artistNames: string[],
 }
 
 ```
@@ -61,7 +60,7 @@ This package loads **only** main releases (The tracks are loaded into a differen
 ## Usage 
 
 ```
- mongo discogs-loader load [options] <Path to xml file - releases | artists>
+ mongo discogs-loader load [options] <Path to xml.gz file - releases | artists>
 
 Options:
   -o, --connection <String>  Mongo connection URL

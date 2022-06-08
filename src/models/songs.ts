@@ -17,14 +17,14 @@ const SongSchema = new Schema({
   styles: {
     type: [String],
   },
+  albumId: {
+    type: String,
+    required: true,
+  },
   genres: {
     type: [String],
   },
   artistIds: {
-    type: [String],
-    required: true,
-  },
-  artistNames: {
     type: [String],
     required: true,
   },

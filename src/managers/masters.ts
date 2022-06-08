@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import XmlStream from 'xml-flow';
 import chalk from 'chalk';
+import zlib from 'zlib';
 import cliProgress from 'cli-progress';
 import fs from 'fs';
 import { config } from '../config';
@@ -20,7 +21,7 @@ export class MastersManager {
       const releasesBar = multibar.create(15000000, 0);
       const songsBar = multibar.create(150000000, 0);
 
-      const stream = fs.createReadStream(path)
+      const stream = fs.createReadStream(path).pipe(zlib.createUnzip())
         .on('error', (err) => reject(err))
         .on('end', async () => {
           await MastersRepository.upsert(rows);
@@ -42,10 +43,10 @@ export class MastersManager {
         const arrayArtists = !Array.isArray(artists) ? [artists] : artists;
 
         const artistsSerials = arrayArtists.map((artist) => artist.id);
-        const artistNames = arrayArtists.map((artist) => artist.name);
 
         const newTracklist = arrayTracklist.flatMap((track, index) => (track?.title ? [{
           name: track.title,
+          albumId: id,
           serialId: `${id}_${track.position ?? index}`,
           position: track.position ?? index,
           styles,
@@ -53,9 +54,6 @@ export class MastersManager {
           artistIds: Array.isArray(track.artists)
             ? track.artists.map((artist) => artist.id)
             : track.artists ? [track.artists.id] : artistsSerials,
-          artistNames: Array.isArray(track.artists)
-            ? track.artists.map((artist) => artist.name)
-            : track.artists ? [track.artists.name] : artistNames,
         }] : []));
 
         const tracklistSerials = newTracklist.map((track) => track.serialId);
@@ -70,7 +68,6 @@ export class MastersManager {
             date: released,
             tracklist: tracklistSerials,
             artistIds: artistsSerials,
-            artistNames,
           },
           upsert: true,
         };

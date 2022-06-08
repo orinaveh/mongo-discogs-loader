@@ -1,7 +1,7 @@
 {
   "name": "mongo-discogs-loader",
-  "version": "0.0.7",
-  "description": "Package thats load XML Discogs dumps into MongoDB.",
+  "version": "0.0.9",
+  "description": "Package thats load xml.gz Discogs dumps into MongoDB.",
   "main": "./dist/index.js",
   "keywords": [
     "mongo",
@@ -41,7 +41,8 @@
     "commander": "^9.2.0",
     "env-var": "^7.1.1",
     "mongoose": "^6.3.4",
-    "xml-flow": "^1.0.4"
+    "xml-flow": "^1.0.4",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
     "@types/cli-progress": "^3.11.0",
